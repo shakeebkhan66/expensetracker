@@ -26,10 +26,22 @@ class _ExpensesState extends State<Expenses> {
         category: Category.leisure),
   ];
 
-
   // TODO Overlay Bottom Sheet
-  void _openAddExpenseOverlay(){
-    showModalBottomSheet(context: context, builder: (ctx) => const NewExpense(),);
+  void _openAddExpenseOverlay() {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (ctx) => NewExpense(
+        onAddExpense: _addExpense,
+      ),
+    );
+  }
+
+  // TODO Add Expenses
+  void _addExpense(Expense expense) {
+    setState(() {
+      _registeredExpenses.add(expense);
+    });
   }
 
   @override
@@ -40,7 +52,10 @@ class _ExpensesState extends State<Expenses> {
           "Flutter Expense Tracker",
           style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600),
         ),
-        actions: [IconButton(onPressed: _openAddExpenseOverlay, icon: const Icon(Icons.add))],
+        actions: [
+          IconButton(
+              onPressed: _openAddExpenseOverlay, icon: const Icon(Icons.add))
+        ],
       ),
       body: Column(
         children: [
